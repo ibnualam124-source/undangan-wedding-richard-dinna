@@ -1,8 +1,9 @@
 // ── KONFIGURASI FIREBASE ──
+// ── KONFIGURASI FIREBASE ──
 const firebaseConfig = {
   apiKey: "AIzaSyCl5CsrD8I-dfmWNtmkavTKMLuGPMw-1r4",
   authDomain: "undangan-richard-dinna.firebaseapp.com",
-  databaseURL: "https://undangan-richard-dinna-default-rtdb.firebaseio.com", 
+  databaseURL: "https://undangan-richard-dinna-default-rtdb.asia-southeast1.firebasedatabase.app", 
   projectId: "undangan-richard-dinna",
   storageBucket: "undangan-richard-dinna.firebasestorage.app",
   messagingSenderId: "87148860254",
