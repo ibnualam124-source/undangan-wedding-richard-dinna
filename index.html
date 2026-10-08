@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Undangan Pernikahan – Richard & Dinna </title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<!-- SDK Firebase (Kompatibel CDN) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+</head>
+<body>
+<div id="progress"></div>
+<div id="petals"></div>
+<div id="toast"></div>
+
+<div id="cover">
+  <div class="arch cover-arch"><span class="cover-mark">✦</span></div>
+  <p class="cover-sub">The Wedding of</p>
+  <h1>Richard & Dinna </h1>
+  <button class="btn btn-gold" id="btnOpen">Buka Undangan</button>
+</div>
+
+<nav id="navbar">
+  <span class="logo">R & D </span>
+  <ul id="navmenu">
+    <li><a href="#couple">Mempelai</a></li>
+    <li><a href="#events">Acara</a></li>
+    <li><a href="#gallery">Galeri</a></li>
+    <li><a href="#wishes">Ucapan</a></li>
+    <li><a href="#gift">Hadiah</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<header id="hero">
+  <div class="orb orb-1"></div><div class="orb orb-2"></div>
+  <div class="hero-arch">
+    <p class="hero-tag">Kami bermaksud mengundang Anda ke pernikahan</p>
+    <h2>Richard</h2>
+    <span class="amp">&</span>
+    <h2>Dinna</h2>
+    <p class="hero-date">Minggu, 1 November 2026</p>
+  </div>
+  <p class="scroll-hint">Gulir ke bawah ↓</p>
+</header>
+
+<div id="countdown">
+  <h3>Hitung Mundur Hari Istimewa</h3>
+  <div class="timer-wrap">
+    <div class="timer-box"><b id="t-days">00</b><span>Hari</span></div>
+    <div class="timer-box"><b id="t-hours">00</b><span>Jam</span></div>
+    <div class="timer-box"><b id="t-mins">00</b><span>Menit</span></div>
+    <div class="timer-box"><b id="t-secs">00</b><span>Detik</span></div>
+  </div>
+</div>
+
+<section id="couple" class="sheet sheet-ivory">
+  <div class="wrap center">
+    <h2 class="title reveal">Dua Jiwa Menjadi Satu</h2>
+    <p class="lead reveal">Dengan penuh rasa syukur atas karunia Allah SWT, kami mengumumkan penyatuan dua keluarga dalam ikatan suci pernikahan.</p>
+    <div class="couple-grid">
+      <article class="person reveal">
+        <div class="arch photo-arch"><img src="laki.jpeg" alt="Richard Rabbin Putra Wijaya"></div>
+        <h3 class="script">Richard</h3>
+        <p class="full">Richard Rabbin Putra Wijaya, S.M.</p>
+        <p class="parents">Putra kedua dari<br><strong>Bapak Chandra & Ibu Mardiah</strong></p>
+      </article>
+      <div class="heart reveal">❤</div>
+      <article class="person reveal">
+        <div class="arch photo-arch"><img src="cewe.jpeg" alt="Dinna Rofiana"></div>
+        <h3 class="script">Dinna</h3>
+        <p class="full">Dinna Rofiana, S.Pd.</p>
+        <p class="parents">Putri kedua dari<br><strong>Bapak Suryadi & Ibu Nurjana</strong></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="story" class="sheet sheet-blush">
+  <div class="wrap">
+    <h2 class="title center reveal">Perjalanan Kita</h2>
+    <div class="timeline">
+      <div class="tl-item reveal"><div class="tl-card"><small>2019</small><h4>Awal Kisah</h4><p>Pada awalnya, kami adalah dua orang asing yang berjalan di jalannya masing - masing, Tak saling kenal, Tak saling sap. Hingga semesta dengan caranya yang indah mempertemukan kami di satu titik yang sama.</p></div><div class="tl-dot">✦</div><div></div></div>
+      <div class="tl-item reveal"><div></div><div class="tl-dot">♡</div><div class="tl-card"><small>2020</small><h4>Tumbuh Bersama</h4><p>Percakapan sederhana menjadi tawa panjang. Tawa yang panjang menjadi nyaman yang menetap. Dan nyaman itu pelan pelan berubah menjadi cinta yang tak kami rencanakan. Kami belajar bahwa cinta bukan tentang seberapa cepat ia datang, tapi tentang seberapa yakin ia tinggal.</p></div></div>
+      <div class="tl-item reveal"><div class="tl-card"><small>2022</small><h4>Janji Setia</h4><p>Dan kini, setelah melalui waktu, doa, dan restu kami yakin bahwa pertemuan ini bukan kebetulan. Ini adalah jawaban dari doa-doa yang kami langitkan diam-diam.</p></div><div class="tl-dot">💍</div><div></div></div>
+      <div class="tl-item reveal"><div></div><div class="tl-dot">🕌</div><div class="tl-card"><small>2026</small><h4>Pernikahan</h4><p>Dengan memohon ridho Allah SWT Kami memutuskan untuk menyempurnakan separuh agama, dan melangkah bersama dalam satu tujuan: Ibadah terpanjang.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="events" class="sheet sheet-sage">
+  <div class="wrap center">
+    <h2 class="title reveal">Detail Pernikahan</h2>
+    <div class="event-cards">
+      <article class="event-card reveal">
+        <div class="arch icon-arch">🕌</div>
+        <h3>Akad Nikah</h3>
+        <p><strong>Minggu, 1 November 2026</strong><br>Pukul 08.00 – 11.00 WIB</p>
+        <p><strong>Taman Tapawira</strong><br>Jl. Hankam No.23, RT.5/RW.11, Ragunan, Ps. Minggu, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12540</p>
+        <a class="btn btn-dark" href="https://maps.app.goo.gl/z6YjowjbA9z9uzkr5" target="_blank" rel="noopener">📍 Lihat Lokasi</a>
+      </article>
+      <article class="event-card reveal">
+        <div class="arch icon-arch">🥂</div>
+        <h3>Resepsi</h3>
+        <p><strong>Minggu, 1 November 2026</strong><br>Pukul 11.00 – 17.00 WIB</p>
+        <p><strong>Taman Tapawira</strong><br>Jl. Hankam No.23, RT.5/RW.11, Ragunan, Ps. Minggu, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12540</p>
+        <a class="btn btn-dark" href="https://maps.app.goo.gl/z6YjowjbA9z9uzkr5" target="_blank" rel="noopener">📍 Lihat Lokasi</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="gallery" class="sheet sheet-deep">
+  <div class="wrap center">
+    <h2 class="title reveal">Momen Berharga</h2>
+    <div class="gallery-grid">
+      <button class="g-item tall reveal" data-src="foto1.jpg"><img src="foto1.jpg" alt="Foto"></button>
+      <button class="g-item reveal" data-src="foto2.jpg"><img src="foto2.jpg" alt="Foto"></button>
+      <button class="g-item wide reveal" data-src="foto3.jpg"><img src="foto3.jpg" alt="Foto"></button>
+      <button class="g-item reveal" data-src="foto4.jpg"><img src="foto4.jpg" alt="Foto"></button>
+      <button class="g-item tall reveal" data-src="foto1.jpg"><img src="foto1.jpg" alt="Foto"></button>
+      <button class="g-item reveal" data-src="foto2.jpg"><img src="foto2.jpg" alt="Foto"></button>
+      <button class="g-item reveal" data-src="foto3.jpg"><img src="foto3.jpg" alt="Foto"></button>
+      <button class="g-item wide reveal" data-src="foto4.jpg"><img src="foto4.jpg" alt="Foto"></button>
+    </div>
+    <p class="caption">Foto Prewedding</p>
+  </div>
+</section>
+<div id="lightbox"><button id="lbClose" aria-label="Tutup">✕</button><div id="lb-content"></div></div>
+
+<section id="wishes" class="sheet sheet-ivory">
+  <div class="wrap narrow">
+    <h2 class="title center reveal">Kirimkan Doa Terbaikmu</h2>
+    <p class="lead center reveal">Setiap doa dan ucapan tulus kalian adalah hadiah terindah bagi kami.</p>
+    <div class="panel reveal">
+      <div class="form-row">
+        <div class="field"><label for="wish-name">Nama</label><input type="text" id="wish-name" placeholder="Nama lengkap Anda"></div>
+        <div class="field"><label for="wish-attend">Kehadiran</label>
+          <select id="wish-attend"><option value="✅ Hadir">✅ Hadir</option><option value="❌ Tidak Hadir">❌ Tidak Hadir</option><option value="🤔 Mungkin Hadir">🤔 Mungkin Hadir</option></select></div>
+      </div>
+      <div class="field"><label for="wish-text">Ucapan & Doa</label><textarea id="wish-text" rows="4" placeholder="Tuliskan doa untuk kedua mempelai..."></textarea></div>
+      <button class="btn btn-dark" id="btnWish">Kirim Ucapan</button>
+    </div>
+    <div id="wishes-list" class="wishes-list"></div>
+  </div>
+</section>
+
+<section id="rsvp" class="sheet sheet-blush">
+  <div class="wrap narrow center">
+    <h2 class="title reveal">Konfirmasi Kehadiran</h2>
+    <p class="lead reveal">Mohon konfirmasi sebelum <strong>30 Oktober 2026</strong></p>
+    <div class="panel reveal left">
+      <div class="field"><label for="rsvp-name">Nama Lengkap</label><input type="text" id="rsvp-name" placeholder="Masukkan nama Anda"></div>
+      <div class="field"><label for="rsvp-phone">Nomor HP / WhatsApp</label><input type="tel" id="rsvp-phone" placeholder="08xxxxxxxxxx"></div>
+      <div class="rsvp-options">
+        <button class="rsvp-btn active" data-val="Hadir">✅ Hadir</button>
+        <button class="rsvp-btn" data-val="Tidak Hadir">❌ Tidak</button>
+        <button class="rsvp-btn" data-val="Mungkin">🤔 Mungkin</button>
+      </div>
+      <div class="field"><label for="rsvp-guests">Jumlah Tamu</label>
+        <select id="rsvp-guests"><option>1 orang</option><option>2 orang</option><option>3 orang</option><option>4 orang</option><option>5+ orang</option></select></div>
+      <button class="btn btn-dark block" id="btnRsvp">Konfirmasi Sekarang</button>
+    </div>
+  </div>
+</section>
+
+<section id="gift" class="sheet sheet-sage">
+  <div class="wrap center">
+    <h2 class="title reveal">Amplop Digital</h2>
+    <p class="lead reveal">Kehadiran dan doa Anda sudah lebih dari cukup. Jika ingin memberi hadiah, kami menerimanya dengan tulus.</p>
+    <div class="gift-tabs">
+      <button class="gift-tab" data-panel="bank">Transfer Bank</button>
+    </div>
+    <div id="panel-bank" class="gift-panel">
+      <div class="bank-cards">
+        <div class="bank-card"><span>BCA</span><b>5540878724</b><em>a.n. Dinna Rofiana</em><button class="copy-btn" data-copy="5540878724">Salin</button></div>
+        <div class="bank-card"><span>BCA</span><b>7330493954</b><em>a.n. Richard Rabbin Putra Wijaya</em><button class="copy-btn" data-copy="7330493954">Salin</button></div>
+        <div class="bank-card"><span>GoPay / OVO / Dana</span><b>085776974941</b><em>a.n. Dinna Rofiana</em><button class="copy-btn" data-copy="085776974941">Salin</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<button class="music-btn" id="musicBtn" title="Putar/Jeda Musik">♪</button>
+
+<footer>
+  <div class="orn">✦ ✦ ✦</div>
+  <h2 class="script">Richard & Dinna</h2>
+  <p>Minggu, 1 November 2026</p>
+  <p class="small">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
