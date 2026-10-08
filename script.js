@@ -109,29 +109,79 @@ function renderWishes(wishes) {
     </div>`).join('');
 }
 
-$('btnWish').addEventListener('click', () => {
-  const name = $('wish-name').value.trim(), text =$('wish-text').value.trim();
-  if (!name || !text) return showToast('Mohon isi nama dan ucapan ✦');
-  
-  const newWish = {
-    name: name,
-    text: text,
-    attend: $('wish-attend').value,
-    date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
-    timestamp: Date.now()
-  };
+// ── Ucapan (Realtime Firebase) ──
+const escHtml = (s) => s ? s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') : '';
 
-  // Simpan ke Firebase Database Online
-  wishesRef.push(newWish)
-    .then(() => {
-      $('wish-name').value = '';$('wish-text').value = '';
-      showToast('Ucapan terkirim, terima kasih! 🌸');
-    })
-    .catch((err) => {
-      console.error(err);
-      showToast('Gagal mengirim ucapan, coba lagi nanti.');
-    });
-});
+function listenWishes() {
+  wishesRef.on('value', (snapshot) => {
+    const data = snapshot.val();
+    let wishesList = [];
+    if (data) {
+      // Mengubah object firebase menjadi array dan mengurutkan dari yang terbaru
+      wishesList = Object.keys(data).map(key => data[key]).reverse();
+    }
+    renderWishes(wishesList);
+  });
+}
+
+function renderWishes(wishes) {
+  const container = $('wishes-list');
+  if (!container) return;
+  
+  if (!wishes.length) {
+    container.innerHTML = `<p class="center" style="color: #888; text-align: center; margin-top: 15px;">Belum ada ucapan. Jadilah yang pertama memberikan doa!</p>`;
+    return;
+  }
+  container.innerHTML = wishes.map((w) => `
+    <div class="wish-card" style="background: rgba(255,255,255,0.8); padding: 12px; margin-top: 10px; border-radius: 8px;">
+      <div class="wish-head" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+        <b>${escHtml(w.name)}</b>
+        <small style="color: #666;">${escHtml(w.date)}</small>
+      </div>
+      <p style="margin: 5px 0;">"${escHtml(w.text)}"</p>
+      <small style="color: #d4af37; font-weight: bold;">${escHtml(w.attend)}</small>
+    </div>`).join('');
+}
+
+// Event Listener Tombol Kirim Ucapan
+const btnWish = $('btnWish');
+if (btnWish) {
+  btnWish.addEventListener('click', () => {
+    const nameInput = $('wish-name');
+    const textInput = $('wish-text');
+    const attendInput = $('wish-attend');
+
+    const name = nameInput ? nameInput.value.trim() : '';
+    const text = textInput ? textInput.value.trim() : '';
+    const attend = attendInput ? attendInput.value : '✅ Hadir';
+
+    if (!name || !text) {
+      showToast('Mohon isi nama dan ucapan ✦');
+      return;
+    }
+
+    const newWish = {
+      name: name,
+      text: text,
+      attend: attend,
+      date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+      timestamp: Date.now()
+    };
+
+    // Simpan ke Firebase
+    wishesRef.push(newWish)
+      .then(() => {
+        if (nameInput) nameInput.value = '';
+        if (textInput) textInput.value = '';
+        showToast('Ucapan terkirim, terima kasih! 🌸');
+      })
+      .catch((err) => {
+        console.error("Firebase Error:", err);
+        showToast('Gagal mengirim ucapan. Cek aturan database Firebase.');
+      });
+  });
+}
+
 
 // ── RSVP ──
 let rsvpStatus = 'Hadir';
