@@ -2,7 +2,6 @@
 const firebaseConfig = {
   apiKey: "AIzaSyCl5CsrD8I-dfmWNtmkavTKMLuGPMw-1r4",
   authDomain: "undangan-richard-dinna.firebaseapp.com",
-  // Kunci perbaikan: Menambahkan databaseURL
   databaseURL: "https://undangan-richard-dinna-default-rtdb.firebaseio.com", 
   projectId: "undangan-richard-dinna",
   storageBucket: "undangan-richard-dinna.firebasestorage.app",
@@ -31,13 +30,13 @@ function openInvitation() {
   if ($('musicBtn'))$('musicBtn').classList.add('show');
   createPetals(); 
   startCountdown(); 
-  listenWishes();
 }
 
 // ── Kelopak ──
 function createPetals() {
   const box = $('petals');
   if (!box) return;
+  box.innerHTML = '';
   for (let i = 0; i < 16; i++) {
     const p = document.createElement('div');
     p.className = 'petal';
@@ -101,9 +100,11 @@ function listenWishes() {
     const data = snapshot.val();
     let wishesList = [];
     if (data) {
-      wishesList = Object.keys(data).map(key => data[key]).reverse();
+      wishesList = Object.keys(data).map(key => data[key]).sort((a, b) => b.timestamp - a.timestamp);
     }
     renderWishes(wishesList);
+  }, (error) => {
+    console.error("Gagal mengambil ucapan:", error);
   });
 }
 
@@ -160,6 +161,9 @@ if ($('btnWish')) {$('btnWish').addEventListener('click', () => {
       });
   });
 }
+
+// Jalankan pembaca ucapan secara otomatis saat web dibuka
+listenWishes();
 
 // ── RSVP ──
 let rsvpStatus = 'Hadir';
