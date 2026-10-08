@@ -1,8 +1,9 @@
 // ── KONFIGURASI FIREBASE ──
-// GANTIKAN DENGAN KODE CONFIG DARI DASHBOARD FIREBASE KAMU:
 const firebaseConfig = {
   apiKey: "AIzaSyCl5CsrD8I-dfmWNtmkavTKMLuGPMw-1r4",
   authDomain: "undangan-richard-dinna.firebaseapp.com",
+  // Kunci perbaikan: Menambahkan databaseURL
+  databaseURL: "https://undangan-richard-dinna-default-rtdb.firebaseio.com", 
   projectId: "undangan-richard-dinna",
   storageBucket: "undangan-richard-dinna.firebasestorage.app",
   messagingSenderId: "87148860254",
@@ -21,16 +22,22 @@ const WEDDING_DATE = new Date('2026-11-01T08:00:00');
 // ── Cover ──
 function openInvitation() {
   const c = $('cover');
-  c.style.opacity = '0';
-  c.style.pointerEvents = 'none';
-  setTimeout(() => (c.style.display = 'none'), 800);
-  $('navbar').classList.add('visible');$('musicBtn').classList.add('show');
-  createPetals(); startCountdown(); listenWishes();
+  if (c) {
+    c.style.opacity = '0';
+    c.style.pointerEvents = 'none';
+    setTimeout(() => (c.style.display = 'none'), 800);
+  }
+  if ($('navbar'))$('navbar').classList.add('visible');
+  if ($('musicBtn'))$('musicBtn').classList.add('show');
+  createPetals(); 
+  startCountdown(); 
+  listenWishes();
 }
 
 // ── Kelopak ──
 function createPetals() {
   const box = $('petals');
+  if (!box) return;
   for (let i = 0; i < 16; i++) {
     const p = document.createElement('div');
     p.className = 'petal';
@@ -55,9 +62,12 @@ function startCountdown() {
       mins: Math.floor((diff % 3600000) / 60000),
       secs: Math.floor((diff % 60000) / 1000),
     };
-    for (const k in ids) $(ids[k]).textContent = pad(v[k]);
+    for (const k in ids) {
+      if ($(ids[k]))$(ids[k]).textContent = pad(v[k]);
+    }
   };
-  tick(); setInterval(tick, 1000);
+  tick(); 
+  setInterval(tick, 1000);
 }
 
 // ── Reveal & progress ──
@@ -68,56 +78,29 @@ document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
 window.addEventListener('scroll', () => {
   const h = document.documentElement;
-  $('progress').style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100 + '%';
+  if ($('progress')) {$('progress').style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100 + '%';
+  }
 });
 
 // ── Navigasi ──
-$('hamburger').addEventListener('click', () =>$('navmenu').classList.toggle('open'));
-$('navmenu').addEventListener('click', () =>$('navmenu').classList.remove('open'));
+if ($('hamburger')) $('hamburger').addEventListener('click', () =>$('navmenu').classList.toggle('open'));
+if ($('navmenu')) $('navmenu').addEventListener('click', () =>$('navmenu').classList.remove('open'));
 
 // ── Tab hadiah ──
 document.querySelectorAll('.gift-tab').forEach((btn) => btn.addEventListener('click', () => {
   document.querySelectorAll('.gift-tab, .gift-panel').forEach((el) => el.classList.remove('active'));
   btn.classList.add('active');
-  $('panel-' + btn.dataset.panel).classList.add('active');
+  if ($('panel-' + btn.dataset.panel))$('panel-' + btn.dataset.panel).classList.add('active');
 }));
 
 // ── Ucapan (Realtime Firebase) ──
 const escHtml = (s) => s ? s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') : '';
 
 function listenWishes() {
-  // Ambil ucapan dari Firebase secara otomatis & real-time
   wishesRef.on('value', (snapshot) => {
     const data = snapshot.val();
     let wishesList = [];
     if (data) {
-      wishesList = Object.values(data).reverse(); // Munculkan yang terbaru di atas
-    }
-    renderWishes(wishesList);
-  });
-}
-
-function renderWishes(wishes) {
-  if (!wishes.length) {
-    $('wishes-list').innerHTML = `<p class="center" style="color: #888;">Belum ada ucapan. Jadilah yang pertama memberikan doa!</p>`;
-    return;
-  }
-  $('wishes-list').innerHTML = wishes.map((w) => `
-    <div class="wish-card">
-      <div class="wish-head"><b>${escHtml(w.name)}</b><small>${escHtml(w.date)}</small></div>
-      <p>"${escHtml(w.text)}"</p><span>${escHtml(w.attend)}</span>
-    </div>`).join('');
-}
-
-// ── Ucapan (Realtime Firebase) ──
-const escHtml = (s) => s ? s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') : '';
-
-function listenWishes() {
-  wishesRef.on('value', (snapshot) => {
-    const data = snapshot.val();
-    let wishesList = [];
-    if (data) {
-      // Mengubah object firebase menjadi array dan mengurutkan dari yang terbaru
       wishesList = Object.keys(data).map(key => data[key]).reverse();
     }
     renderWishes(wishesList);
@@ -127,26 +110,23 @@ function listenWishes() {
 function renderWishes(wishes) {
   const container = $('wishes-list');
   if (!container) return;
-  
+
   if (!wishes.length) {
     container.innerHTML = `<p class="center" style="color: #888; text-align: center; margin-top: 15px;">Belum ada ucapan. Jadilah yang pertama memberikan doa!</p>`;
     return;
   }
   container.innerHTML = wishes.map((w) => `
-    <div class="wish-card" style="background: rgba(255,255,255,0.8); padding: 12px; margin-top: 10px; border-radius: 8px;">
+    <div class="wish-card" style="background: rgba(255,255,255,0.9); padding: 12px; margin-top: 10px; border-radius: 8px; border: 1px solid #eee;">
       <div class="wish-head" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-        <b>${escHtml(w.name)}</b>
-        <small style="color: #666;">${escHtml(w.date)}</small>
+        <b style="color: #333;">${escHtml(w.name)}</b>
+        <small style="color: #888;">${escHtml(w.date)}</small>
       </div>
-      <p style="margin: 5px 0;">"${escHtml(w.text)}"</p>
+      <p style="margin: 5px 0; color: #555;">"${escHtml(w.text)}"</p>
       <small style="color: #d4af37; font-weight: bold;">${escHtml(w.attend)}</small>
     </div>`).join('');
 }
 
-// Event Listener Tombol Kirim Ucapan
-const btnWish = $('btnWish');
-if (btnWish) {
-  btnWish.addEventListener('click', () => {
+if ($('btnWish')) {$('btnWish').addEventListener('click', () => {
     const nameInput = $('wish-name');
     const textInput = $('wish-text');
     const attendInput = $('wish-attend');
@@ -168,7 +148,6 @@ if (btnWish) {
       timestamp: Date.now()
     };
 
-    // Simpan ke Firebase
     wishesRef.push(newWish)
       .then(() => {
         if (nameInput) nameInput.value = '';
@@ -177,11 +156,10 @@ if (btnWish) {
       })
       .catch((err) => {
         console.error("Firebase Error:", err);
-        showToast('Gagal mengirim ucapan. Cek aturan database Firebase.');
+        showToast('Gagal mengirim ucapan.');
       });
   });
 }
-
 
 // ── RSVP ──
 let rsvpStatus = 'Hadir';
@@ -190,38 +168,44 @@ document.querySelectorAll('.rsvp-btn').forEach((btn) => btn.addEventListener('cl
   btn.classList.add('active');
   rsvpStatus = btn.dataset.val;
 }));
-$('btnRsvp').addEventListener('click', () => {
-  const name = $('rsvp-name').value.trim(), phone =$('rsvp-phone').value.trim();
-  if (!name || !phone) return showToast('Mohon isi nama dan nomor HP');
-  
-  // Opsional: simpan data RSVP ke Firebase juga
-  db.ref('rsvp').push({
-    name: name,
-    phone: phone,
-    status: rsvpStatus,
-    guests: $('rsvp-guests').value,
-    timestamp: Date.now()
-  });
 
-  showToast(`Terima kasih, ${name}! Kehadiran: ${rsvpStatus} 🎊`);
-  $('rsvp-name').value = '';$('rsvp-phone').value = '';
-});
+if ($('btnRsvp')) {$('btnRsvp').addEventListener('click', () => {
+    const name = $('rsvp-name') ?$('rsvp-name').value.trim() : '';
+    const phone = $('rsvp-phone') ?$('rsvp-phone').value.trim() : '';
+    if (!name || !phone) return showToast('Mohon isi nama dan nomor HP');
+    
+    db.ref('rsvp').push({
+      name: name,
+      phone: phone,
+      status: rsvpStatus,
+      guests: $('rsvp-guests') ?$('rsvp-guests').value : '1 orang',
+      timestamp: Date.now()
+    });
+
+    showToast(`Terima kasih, ${name}! Kehadiran: ${rsvpStatus} 🎊`);
+    if ($('rsvp-name'))$('rsvp-name').value = '';
+    if ($('rsvp-phone'))$('rsvp-phone').value = '';
+  });
+}
 
 // ── Lightbox ──
 document.querySelectorAll('.g-item').forEach((item) => item.addEventListener('click', () => {
   const img = document.createElement('img');
   img.src = item.dataset.src;
-  $('lb-content').replaceChildren(img);$('lightbox').classList.add('open');
+  if ($('lb-content'))$('lb-content').replaceChildren(img);
+  if ($('lightbox'))$('lightbox').classList.add('open');
 }));
-$('lightbox').addEventListener('click', () =>$('lightbox').classList.remove('open'));
+if ($('lightbox')) $('lightbox').addEventListener('click', () =>$('lightbox').classList.remove('open'));
 
 // ── Salin & toast ──
 document.querySelectorAll('.copy-btn').forEach((btn) => btn.addEventListener('click', () => {
   navigator.clipboard.writeText(btn.dataset.copy).catch(() => {});
   showToast('Nomor rekening disalin! ✦');
 }));
+
 function showToast(msg) {
   const t = $('toast');
+  if (!t) return;
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
@@ -229,20 +213,21 @@ function showToast(msg) {
 
 // ── Musik ──
 let bgMusic;
+if ($('musicBtn')) {$('musicBtn').addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+    if (!bgMusic) {
+      bgMusic = new Audio('lagu2.mp3'); 
+      bgMusic.loop = true; 
+      bgMusic.volume = 0.5; 
+      bgMusic.play().catch((err) => console.error("Gagal memutar audio:", err));
+      btn.classList.add('playing');
+    } else {
+      bgMusic.pause();
+      bgMusic = null;
+      btn.classList.remove('playing');
+    }
+  });
+}
 
-$('musicBtn').addEventListener('click', (e) => {
-  const btn = e.currentTarget;
-  if (!bgMusic) {
-    bgMusic = new Audio('lagu2.mp3'); 
-    bgMusic.loop = true; 
-    bgMusic.volume = 0.5; 
-    bgMusic.play().catch((err) => console.error("Gagal memutar audio:", err));
-    btn.classList.add('playing');
-  } else {
-    bgMusic.pause();
-    bgMusic = null;
-    btn.classList.remove('playing');
-  }
-});
-
-$('cover').addEventListener('click', openInvitation);
+if ($('btnOpen'))$('btnOpen').addEventListener('click', openInvitation);
+if ($('cover'))$('cover').addEventListener('click', openInvitation);
